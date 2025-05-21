@@ -1,9 +1,13 @@
 import { S3File } from "../DTOs/S3File";
 
-const API_URL = 'https://ys9wnblidj.execute-api.sa-east-1.amazonaws.com/GetS3BucketAvailableObjects'
+const AVAILABLE_OBJECTS_ENDPOINT = process.env.REACT_APP_AVAILABLE_OBJECTS_ENDPOINT;
 
 export async function getTempLinks(): Promise<S3File[]> {
-    const response = await fetch(API_URL);
+    if (!AVAILABLE_OBJECTS_ENDPOINT) {
+        throw new Error('REACT_APP_API_URL não está definida');
+    }
+    
+    const response = await fetch(AVAILABLE_OBJECTS_ENDPOINT);
 
     if (!response.ok) {
         throw new Error('Erro ao buscar arquivos');

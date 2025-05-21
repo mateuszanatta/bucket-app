@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { S3File } from '../DTOs/S3File'
-import { getTempLinks } from '../Services/s3Service';
+import { getTempLinks } from '../Services/S3Service';
 
 function S3List(){
     const [urls, setUrls] = useState<S3File[]>([]);
@@ -11,9 +11,13 @@ function S3List(){
         .then(setUrls)
         .catch(err => console.log(err))
         .finally(() => setLoading(false));
-    }, [])
+    }, [loading])
 
     if (loading) return <p>Carregando ...</p>
+
+    const handleReload = () => {
+        setLoading(true);
+    }
 
     return (
         <div>
@@ -27,6 +31,7 @@ function S3List(){
                     )
                 })}
             </ul>
+            <button onClick={handleReload}>Recarregar</button>
         </div>
 
     )
