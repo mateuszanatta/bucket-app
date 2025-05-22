@@ -5,18 +5,19 @@ import { getTempLinks } from '../Services/S3Service';
 function S3List(){
     const [urls, setUrls] = useState<S3File[]>([]);
     const [loading, setLoading] = useState(true);
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         getTempLinks()
         .then(setUrls)
         .catch(err => console.log(err))
         .finally(() => setLoading(false));
-    }, [loading])
+    }, [reload])
 
     if (loading) return <p>Carregando ...</p>
 
     const handleReload = () => {
-        setLoading(true);
+        setReload(!reload);
     }
 
     return (
